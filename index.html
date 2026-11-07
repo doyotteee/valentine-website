@@ -1,988 +1,1491 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Special for My World, Yumnaa 💕✨</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy 3rd Month Anniversary, Yumnaa 💕✨</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --bg-night: #140817;
+            --bg-plum: #280c25;
+            --rose-primary: #ff4d79;
+            --rose-deep: #c2185b;
+            --rose-soft: #fde8ee;
+            --wine: #670d2b;
+            --gold-bright: #ffd166;
+            --gold-soft: #e5ad35;
+            --cream: #fffdfa;
+            --ink: #331523;
+            --text-muted: #6e4859;
+            
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-hand: 'Caveat', cursive, sans-serif;
+            --font-cursive: 'Sacramento', cursive;
+            
+            --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 209, 102, 0.35);
+            --shadow-gold: 0 10px 25px rgba(229, 173, 53, 0.35);
+            --shadow-rose: 0 10px 25px rgba(255, 77, 121, 0.4);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+        html, body {
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            background: #000;
-            height: 100vh;
+            background-color: var(--bg-night);
+            font-family: var(--font-sans);
+            color: var(--ink);
+        }
+
+        /* Ambient Cosmic Background */
+        body {
+            background: 
+                radial-gradient(circle at 15% 20%, rgba(138, 24, 61, 0.45) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(194, 24, 91, 0.35) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(58, 18, 51, 0.6) 0%, transparent 70%),
+                var(--bg-night);
+            position: relative;
+        }
+
+        /* Ambient Floating Canvas */
+        #petalCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Audio Floating Bar */
+        .music-pill {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            z-index: 999;
+            background: rgba(28, 10, 26, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 209, 102, 0.4);
+            border-radius: 40px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gold-bright);
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .music-pill:hover {
+            transform: translateY(-2px);
+            background: rgba(38, 14, 35, 0.9);
+            border-color: var(--gold-bright);
+            box-shadow: 0 10px 28px rgba(229, 173, 53, 0.3);
+        }
+
+        .music-equalizer {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 14px;
+        }
+
+        .music-equalizer span {
+            width: 3px;
+            background: var(--gold-bright);
+            border-radius: 3px;
+            animation: bounceBar 1.2s ease-in-out infinite alternate;
+        }
+
+        .music-equalizer span:nth-child(1) { height: 6px; animation-delay: 0.1s; }
+        .music-equalizer span:nth-child(2) { height: 14px; animation-delay: 0.3s; }
+        .music-equalizer span:nth-child(3) { height: 9px; animation-delay: 0.2s; }
+
+        .music-pill.paused .music-equalizer span {
+            animation: none;
+            height: 4px;
+            opacity: 0.5;
+        }
+
+        .music-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #fff;
+            max-width: 140px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @keyframes bounceBar {
+            0% { height: 4px; }
+            100% { height: 14px; }
+        }
+
+        /* Audio Interaction Prompt */
+        .audio-tap-hint {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 998;
+            background: rgba(255, 77, 121, 0.9);
+            color: #fff;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 30px;
+            box-shadow: 0 8px 24px rgba(255, 77, 121, 0.4);
+            pointer-events: none;
+            animation: pulseHint 2s infinite;
+            display: none;
+        }
+
+        @keyframes pulseHint {
+            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.95; }
+            50% { transform: translateX(-50%) scale(1.05); opacity: 1; }
+        }
+
+        /* Pages System */
+        .page-viewport {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
         .page {
             position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 24px;
+            overflow-y: auto;
+            z-index: 10;
         }
 
         .page.active {
             display: flex;
+            animation: pageFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* PAGE 1 - Initial Message */
-        .page-1 {
-            background: #000;
+        @keyframes pageFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
-        .intro-text {
-            font-size: 3em;
-            color: #FFD700;
+        /* Glassmorphic Luxury Card */
+        .romantic-card {
+            position: relative;
+            background: rgba(255, 253, 250, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 48px 36px 40px;
+            max-width: 490px;
+            width: 100%;
             text-align: center;
-            padding: 40px;
-            font-weight: bold;
-            line-height: 1.5;
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(255, 209, 102, 0.5);
+            margin: auto 0;
         }
 
-        /* PAGE 2 - Code Screen */
-        .page-2 {
-            background: #1e1e1e;
+        .romantic-card::before {
+            content: "";
+            position: absolute;
+            inset: 6px;
+            border: 1px dashed rgba(194, 24, 91, 0.2);
+            border-radius: 26px;
+            pointer-events: none;
         }
 
-        .vscode-container {
+        /* Badges & Tags */
+        .pill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, var(--wine), #380718);
+            color: var(--gold-bright);
+            padding: 7px 22px;
+            border-radius: 50px;
+            font-family: var(--font-hand);
+            font-size: 1.25rem;
+            letter-spacing: 0.04em;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+            margin-bottom: 18px;
+            border: 1px solid rgba(255, 209, 102, 0.3);
+        }
+
+        .card-top-tag {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            background: linear-gradient(135deg, var(--wine), #871337);
+            color: var(--gold-bright);
+            padding: 7px 24px;
+            border-radius: 30px;
+            font-family: var(--font-hand);
+            font-size: 1.2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 209, 102, 0.4);
+        }
+
+        /* Typography */
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 6vw, 3.4rem);
+            line-height: 1.2;
+            color: #fff;
+            text-align: center;
+            font-weight: 600;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-title .glow-name {
+            display: block;
+            font-family: var(--font-cursive);
+            font-size: clamp(3.2rem, 10vw, 5.2rem);
+            color: var(--gold-bright);
+            font-weight: 400;
+            line-height: 1.1;
+            text-shadow: 0 0 25px rgba(255, 209, 102, 0.6), 0 0 40px rgba(255, 77, 121, 0.4);
+            margin: 6px 0 10px;
+        }
+
+        .card-title {
+            font-family: var(--font-serif);
+            font-size: clamp(1.8rem, 5.5vw, 2.35rem);
+            line-height: 1.2;
+            color: var(--wine);
+            font-weight: 700;
+            margin: 10px 0 12px;
+        }
+
+        .card-desc {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 26px;
+        }
+
+        .emoji-float {
+            font-size: 64px;
+            line-height: 1;
+            margin: 6px 0 12px;
+            display: inline-block;
+            filter: drop-shadow(0 10px 18px rgba(0,0,0,0.15));
+            animation: floatingEmoji 3.2s ease-in-out infinite;
+        }
+
+        @keyframes floatingEmoji {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-9px) rotate(-3deg); }
+        }
+
+        /* Buttons */
+        .btn-glow {
+            font-family: var(--font-sans);
+            font-weight: 800;
+            font-size: 1.05rem;
+            padding: 16px 38px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, #ff4d79 0%, #c2185b 100%);
+            color: #fff;
+            letter-spacing: 0.02em;
+            box-shadow: var(--shadow-rose);
+            transition: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                60deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 70%
+            );
+            transform: rotate(30deg);
+            animation: shineBtn 4s infinite linear;
+        }
+
+        @keyframes shineBtn {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 14px 32px rgba(255, 77, 121, 0.55);
+        }
+
+        .btn-glow:active {
+            transform: translateY(0) scale(0.99);
+        }
+
+        .button-arena {
+            position: relative;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            min-height: 64px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-runaway {
+            position: absolute;
+            background: #ede0e5;
+            color: #724e5d;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 14px 28px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.25s ease-out, background 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            right: calc(50% - 150px);
+            z-index: 2;
+        }
+
+        /* 3 Months Anniversary Badge */
+        .anniv-badge-container {
+            position: relative;
+            margin: 4px auto 14px;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .anniv-badge-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px dashed rgba(229, 173, 53, 0.6);
+            animation: spinRing 25s linear infinite;
+        }
+
+        @keyframes spinRing {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .anniv-badge-core {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #ffeaa7, #e5ad35 60%, #b88219 100%);
+            color: var(--wine);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 30px rgba(229, 173, 53, 0.45), inset 0 0 0 4px rgba(255, 255, 255, 0.5);
+            animation: floatingEmoji 3.5s ease-in-out infinite;
+        }
+
+        .anniv-badge-core .number {
+            font-family: var(--font-serif);
+            font-size: 3.8rem;
+            font-weight: 700;
+            line-height: 0.85;
+            text-shadow: 0 2px 6px rgba(255, 255, 255, 0.4);
+        }
+
+        .anniv-badge-core .label {
+            font-family: var(--font-hand);
+            font-size: 1.45rem;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: 0.03em;
+        }
+
+        .anniv-stats {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 12px 0 20px;
+            padding: 10px 14px;
+            background: rgba(253, 232, 238, 0.6);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 77, 121, 0.2);
+        }
+
+        .anniv-stat-item {
+            text-align: center;
+        }
+
+        .anniv-stat-item b {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--wine);
+            font-weight: 800;
+        }
+
+        .anniv-stat-item span {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* PAGE 2: Modern VS Code Dark Screen */
+        .page-vscode {
+            padding: 0;
+            background: #14121a;
+        }
+
+        .code-window {
             width: 100%;
             height: 100%;
-            background: #1e1e1e;
+            display: flex;
+            flex-direction: column;
+            background: #181520;
             position: relative;
         }
 
-        .vscode-header {
-            background: #323233;
-            height: 35px;
+        .code-header {
+            background: #211c2c;
+            height: 42px;
             display: flex;
             align-items: center;
-            padding: 0 15px;
-            border-bottom: 1px solid #252526;
+            padding: 0 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            gap: 12px;
         }
 
-        .vscode-tab {
-            background: #1e1e1e;
-            padding: 8px 20px;
+        .traffic-dots {
+            display: flex;
+            gap: 7px;
+        }
+
+        .traffic-dots span {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .code-tab {
+            background: #181520;
+            padding: 8px 18px;
             color: #fff;
-            font-size: 13px;
-            border-right: 1px solid #252526;
+            font-size: 12.5px;
+            border-radius: 8px 8px 0 0;
+            border-top: 2px solid var(--rose-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-sans);
         }
 
-        .vscode-editor {
-            padding: 40px;
-            color: #d4d4d4;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 16px;
-            line-height: 2;
+        .code-body {
+            flex: 1;
+            padding: 30px 24px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: clamp(12px, 2.7vw, 15px);
+            line-height: 1.95;
+            color: #d8dee9;
+            overflow-y: auto;
         }
 
         .code-line {
             opacity: 0;
+            transition: opacity 0.25s ease;
         }
 
-        .reveal-message {
+        .code-comment { color: #6272a4; font-style: italic; }
+        .code-keyword { color: #ff79c6; font-weight: bold; }
+        .code-func { color: #50fa7b; }
+        .code-prop { color: #8be9fd; }
+        .code-string { color: #f1fa8c; }
+
+        .code-reveal-overlay {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2.5em;
-            color: #FFD700;
-            text-align: center;
-            font-weight: bold;
-            z-index: 10;
+            inset: 42px 0 0 0;
+            background: rgba(18, 7, 20, 0.94);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             display: none;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-        }
-
-        .comment { color: #6a9955; }
-        .keyword { color: #569cd6; }
-        .function { color: #dcdcaa; }
-        .string { color: #ce9178; }
-        .property { color: #9cdcfe; }
-
-        /* PAGES 3-6 - Interactive Pages */
-        .page-3, .page-4, .page-5, .page-6 {
-            background: #ffe6e6;
-        }
-
-        .final-container {
-            background: linear-gradient(135deg, #ffc0cb 0%, #ffb6d9 100%);
-            padding: 80px 40px 60px;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-        }
-
-        .top-message {
-            position: absolute;
-            top: -70px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 1.5em;
-            color: #FFD700;
-            font-weight: bold;
-            text-align: center;
-            width: 120%;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .cute-bear {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-
-        .question {
-            font-size: 2.5em;
-            color: #8B0000;
-            margin: 20px 0;
-            font-weight: bold;
-            font-family: 'Georgia', serif;
-        }
-
-        .subtext {
-            font-size: 1em;
-            color: #333;
-            margin: 20px 0 30px;
-            line-height: 1.6;
-        }
-
-        .button-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 30px;
-            position: relative;
-            min-height: 60px;
-        }
-
-        .btn {
-            padding: 15px 40px;
-            font-size: 1.2em;
-            font-weight: bold;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-        }
-
-        .btn-yes {
-            background: #ff1744;
-            color: white;
-            box-shadow: 0 5px 15px rgba(255, 23, 68, 0.4);
-        }
-
-        .btn-yes:hover {
-            background: #d50032;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 23, 68, 0.6);
-        }
-
-        .btn-no {
-            background: #2962ff;
-            color: white;
-            box-shadow: 0 5px 15px rgba(41, 98, 255, 0.4);
-            position: absolute;
-        }
-
-        .couple-bears {
-            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            font-size: 80px;
-        }
-
-        .success-message {
-            display: none;
-            margin-top: 30px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-        }
-
-        .success-message h2 {
-            color: #ff1744;
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-
-        .success-message p {
-            color: #333;
-            font-size: 1.2em;
-        }
-
-        .heart {
-            position: fixed;
-            font-size: 30px;
-            pointer-events: none;
-            animation: float-up 4s linear forwards;
-        }
-
-        @keyframes float-up {
-            0% {
-                opacity: 0;
-                transform: translateY(0) rotate(0deg);
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-100vh) rotate(360deg);
-            }
-        }
-
-        /* PAGE 7 - Gifts Selection */
-        .page-7 {
-            background: #f5e6d3;
-        }
-
-        .gifts-container {
-            background: linear-gradient(135deg, #ffc0cb 0%, #ffb6d9 100%);
-            padding: 60px 40px;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 30px;
             text-align: center;
-            max-width: 600px;
-            width: 90%;
+            z-index: 10;
+            animation: pageFadeIn 0.7s forwards;
         }
 
-        .gifts-title {
-            font-size: 2.5em;
-            color: #000;
-            margin-bottom: 40px;
-            font-family: 'Georgia', serif;
+        .code-reveal-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            color: var(--gold-bright);
+            line-height: 1.3;
+            margin-bottom: 24px;
+            font-weight: 600;
         }
 
+        /* PAGE 7: 3 Gifts Selection */
         .gifts-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .gift-card {
-            background: white;
-            padding: 30px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .gift-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .gift-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-
-        .gift-label {
-            font-size: 1.1em;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .finally-btn {
-            background: #ff1744;
-            color: white;
-            border: none;
-            padding: 15px 50px;
-            font-size: 1.2em;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 23, 68, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .finally-btn:hover {
-            background: #d50032;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 23, 68, 0.6);
-        }
-
-        /* Gift Modal */
-        .gift-modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
+            gap: 16px;
+            margin: 24px 0 28px;
             width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            align-items: center;
-            justify-content: center;
         }
 
-        .gift-modal.active {
-            display: flex;
-        }
-
-        .gift-modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            animation: modalSlideIn 0.4s ease;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                transform: scale(0.7);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .close-modal {
-            position: absolute;
-            right: 20px;
-            top: 15px;
-            font-size: 2em;
+        .gift-box-card {
+            background: #fff;
+            border: 2px solid #fad2dc;
+            border-radius: 22px;
+            padding: 24px 10px 18px;
             cursor: pointer;
-            color: #999;
-        }
-
-        .close-modal:hover {
-            color: #333;
-        }
-
-        #giftContent {
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        #giftContent h2 {
-            color: #ff1744;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-
-        #giftContent p {
-            font-size: 1.2em;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .quiz-options {
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            align-items: center;
         }
 
-        .quiz-option {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            font-size: 1.1em;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: left;
+        .gift-box-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--rose-primary);
+            box-shadow: 0 12px 28px rgba(255, 77, 121, 0.25);
         }
 
-        .quiz-option:hover {
-            transform: translateX(10px);
-            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
+        .gift-box-card.opened {
+            background: #fff4f7;
+            border-color: #ff9ebb;
         }
 
-        .quiz-result {
-            text-align: center;
-            padding: 20px;
+        .gift-box-card.opened::after {
+            content: "✓ DIBUKA";
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: var(--rose-deep);
+            background: rgba(255, 77, 121, 0.15);
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-top: 6px;
         }
 
-        .quiz-next-btn {
-            background: #ff1744;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 1.1em;
-            border-radius: 25px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .quiz-next-btn:hover {
-            background: #d50032;
-            transform: translateY(-2px);
-        }
-
-        .quiz-final {
-            text-align: center;
-            padding: 20px;
-        }
-
-        /* Love Letter Styles */
-        .letter-container {
-            text-align: center;
-        }
-
-        .letter-paper {
-            background: #fffef0;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: left;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: 20px 0;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .letter-greeting {
-            font-family: 'Brush Script MT', cursive, Georgia, serif;
-            font-size: 1.3em;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .letter-text {
-            font-family: Georgia, serif;
-            font-size: 1em;
-            line-height: 1.8;
-            color: #333;
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        .letter-signature {
-            font-family: 'Brush Script MT', cursive, Georgia, serif;
-            font-size: 1.2em;
-            color: #333;
-            margin-top: 20px;
-            text-align: right;
-        }
-
-        .next-btn {
-            background: #ff1744;
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            font-size: 1.1em;
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .next-btn:hover {
-            background: #d50032;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 23, 68, 0.4);
-        }
-
-        /* Photo Gallery Styles */
-        .gallery-container {
-            text-align: center;
-        }
-
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin: 20px 0;
-            max-height: 450px;
-            overflow-y: auto;
-            padding: 10px;
-        }
-
-        .photo-card {
-            background: white;
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        .gift-box-icon {
+            font-size: 2.8rem;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
             transition: transform 0.3s ease;
         }
 
-        .photo-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        .gift-box-card:hover .gift-box-icon {
+            transform: scale(1.15) rotate(6deg);
         }
 
-        .photo-frame {
+        .gift-box-title {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--wine);
+        }
+
+        .gift-box-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Modal Architecture */
+        .modal-veil {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(14, 5, 15, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-veil.active {
+            display: flex;
+        }
+
+        .modal-card {
+            position: relative;
+            background: var(--cream);
+            border-radius: 28px;
+            padding: 38px 28px 30px;
+            max-width: 530px;
             width: 100%;
-            height: 120px;
-            overflow: hidden;
-            border-radius: 8px;
-            background: #f0f0f0;
+            max-height: 88vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 209, 102, 0.5);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+            animation: pageFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05);
+            border: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            line-height: 1;
+            color: #8b5b6d;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s;
         }
 
-        .gallery-photo {
+        .modal-close-btn:hover {
+            background: rgba(194, 24, 91, 0.15);
+            color: var(--rose-deep);
+        }
+
+        /* Modal: Love Quiz */
+        .quiz-step-progress {
+            height: 6px;
+            background: #fad2dc;
+            border-radius: 10px;
+            margin-bottom: 22px;
+            overflow: hidden;
+        }
+
+        .quiz-step-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--rose-primary), var(--gold-bright));
+            transition: width 0.4s ease;
+        }
+
+        .quiz-card-question {
+            font-size: 1.15rem;
+            color: var(--ink);
+            line-height: 1.55;
+            font-weight: 700;
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .quiz-choice-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .quiz-choice-btn {
+            background: #fff;
+            border: 1.5px solid #f2c9d4;
+            border-radius: 16px;
+            padding: 13px 18px;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--ink);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.22s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .quiz-choice-btn:hover {
+            border-color: var(--rose-primary);
+            background: var(--rose-soft);
+            transform: translateX(5px);
+        }
+
+        .quiz-answer-feedback {
+            text-align: center;
+            padding: 16px 8px;
+        }
+
+        .quiz-quote-box {
+            background: rgba(253, 232, 238, 0.7);
+            border-left: 3px solid var(--rose-primary);
+            padding: 14px 18px;
+            border-radius: 0 14px 14px 0;
+            margin: 16px 0 20px;
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 1.25rem;
+            line-height: 1.45;
+            color: #532d3d;
+            text-align: left;
+        }
+
+        /* Modal: Love Letter */
+        .vintage-letter-wrap {
+            position: relative;
+            background: #fffdf2;
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 31px,
+                rgba(215, 190, 160, 0.35) 31px,
+                rgba(215, 190, 160, 0.35) 32px
+            );
+            border-left: 4px solid var(--rose-primary);
+            border-radius: 12px;
+            padding: 26px 22px;
+            box-shadow: inset 0 0 20px rgba(180, 140, 100, 0.1), 0 4px 16px rgba(0, 0, 0, 0.06);
+            margin: 14px 0 22px;
+            max-height: 52vh;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .letter-seal-icon {
+            font-size: 2.2rem;
+            margin-bottom: 6px;
+        }
+
+        .letter-intro-greet {
+            font-family: var(--font-hand);
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: var(--wine);
+            margin-bottom: 12px;
+        }
+
+        .letter-body-p {
+            font-family: var(--font-serif);
+            font-size: 1.15rem;
+            line-height: 32px;
+            color: #3b222c;
+            margin-bottom: 14px;
+        }
+
+        .letter-signature-block {
+            font-family: var(--font-hand);
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--wine);
+            margin-top: 18px;
+            text-align: right;
+            line-height: 1.3;
+        }
+
+        /* Modal: Photo Gallery */
+        .gallery-photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 14px 0 20px;
+            max-height: 55vh;
+            overflow-y: auto;
+            padding: 8px 6px;
+        }
+
+        .polaroid-card {
+            background: #fff;
+            padding: 9px 9px 14px;
+            border-radius: 4px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .polaroid-card:nth-child(odd) { transform: rotate(-2deg); }
+        .polaroid-card:nth-child(even) { transform: rotate(2deg); }
+
+        .polaroid-card:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+            z-index: 5;
+        }
+
+        .polaroid-frame {
+            aspect-ratio: 1;
+            overflow: hidden;
+            background: #f0e6e9;
+            border-radius: 2px;
+        }
+
+        .polaroid-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
         }
 
-        .photo-caption {
+        .polaroid-card:hover .polaroid-img {
+            transform: scale(1.08);
+        }
+
+        .polaroid-label {
             margin-top: 8px;
-            font-size: 0.9em;
-            color: #333;
-            font-weight: 500;
-        }
-
-        @media (max-width: 768px) {
-            .photo-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-        }
-
-        /* PAGE 8 - Final Video */
-        .page-8 {
-            background: #f5e6d3;
-        }
-
-        .video-container {
-            background: linear-gradient(135deg, #ffc0cb 0%, #ffb6d9 100%);
-            padding: 60px 40px;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            font-family: var(--font-hand);
+            font-size: 1.1rem;
+            color: var(--wine);
+            line-height: 1.2;
             text-align: center;
-            max-width: 700px;
-            width: 90%;
+            font-weight: 700;
         }
 
-        .video-title {
-            font-size: 2.5em;
-            color: #000;
-            margin-bottom: 30px;
-            font-family: 'Georgia', serif;
+        /* Lightbox Full Photo Preview */
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
-        .video-frame {
-            background: #000;
-            padding: 10px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            margin-bottom: 30px;
+        .lightbox-overlay.active {
+            display: flex;
         }
 
-        .final-video {
-    width: 30%;          /* This makes it 60% of container width */
-    max-width: 200px;    /* Maximum 350px wide */
-    height: auto;
-    border-radius: 15px;
-    outline: none;
-}
-
-        .video-message {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 25px;
-            border-radius: 15px;
-            margin-top: 20px;
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 85vh;
+            text-align: center;
         }
 
-        .video-text {
-            font-size: 1.1em;
-            color: #333;
-            line-height: 1.8;
-            font-family: Georgia, serif;
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 75vh;
+            border-radius: 12px;
+            border: 3px solid #fff;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
         }
 
-        @media (max-width: 768px) {
+        .lightbox-caption {
+            margin-top: 14px;
+            color: var(--gold-bright);
+            font-family: var(--font-hand);
+            font-size: 1.6rem;
+        }
+
+        /* PAGE 8: Grand Finale Card */
+        .finale-polaroid-hero {
+            background: #fff;
+            padding: 12px 12px 18px;
+            border-radius: 6px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 209, 102, 0.4);
+            transform: rotate(-1.5deg);
+            max-width: 280px;
+            margin: 16px auto 20px;
+        }
+
+        .finale-polaroid-hero img {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            border-radius: 2px;
+            display: block;
+        }
+
+        .finale-polaroid-hero p {
+            margin-top: 10px;
+            font-family: var(--font-hand);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--wine);
+        }
+
+        .finale-message-box {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            line-height: 1.65;
+            color: #4a2838;
+            margin-bottom: 24px;
+        }
+
+        /* Responsive Tweaks */
+        @media (max-width: 480px) {
+            .romantic-card {
+                padding: 42px 22px 32px;
+                border-radius: 26px;
+            }
+
             .gifts-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
+                gap: 10px;
             }
-            .gifts-title {
-                font-size: 2em;
-            }
-        }
 
-        @media (max-width: 768px) {
-            .intro-text {
-                font-size: 2em;
+            .gift-box-card {
+                padding: 18px 6px 14px;
             }
-            .question {
-                font-size: 1.8em;
+
+            .gift-box-icon {
+                font-size: 2.2rem;
             }
-            .top-message {
-                font-size: 1.2em;
+
+            .btn-runaway {
+                right: calc(50% - 130px);
+            }
+
+            .music-pill {
+                top: 12px;
+                right: 12px;
+                padding: 6px 12px;
+            }
+
+            .music-title {
+                max-width: 90px;
+                font-size: 0.72rem;
             }
         }
     </style>
 </head>
+
 <body>
-   <audio id="bgMusic" loop>
-    <source src="LANY - Stuck.mp3" type="audio/mpeg">
-</audio>
-    <!-- PAGE 1: Initial Message -->
-    <div class="page page-1 active" id="page1">
-        <div class="intro-text">
-            Khusus Buat Duniaku:<br>
-            Kado biasa mah terlalu mainstream 🙄✨
+    <!-- Audio Background -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="LANY - Stuck.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Music Pill -->
+    <div class="music-pill" id="musicToggleBtn" title="Putar atau jeda musik">
+        <div class="music-equalizer">
+            <span></span><span></span><span></span>
         </div>
+        <span class="music-title">LANY - Stuck</span>
     </div>
 
-    <!-- PAGE 2: Code Screen -->
-    <div class="page page-2" id="page2">
-        <div class="vscode-container">
-            <div class="vscode-header">
-                <div class="vscode-tab">index.html</div>
-            </div>
-            <div class="vscode-editor" id="codeEditor"></div>
-            <div class="reveal-message" id="revealMessage">
-                Bikin website spesial ini khusus<br>cuma buat duniaku, Yumna! 🥹❤️
-            </div>
-        </div>
+    <!-- First Tap Hint (disappears after first user interaction) -->
+    <div class="audio-tap-hint" id="audioHint">
+        🎵 Ketuk layar untuk musik & kejutan ✨
     </div>
 
-    <!-- PAGE 3: Will You Be Mine -->
-    <div class="page page-3" id="page3">
-        <div class="final-container">
-            <div class="top-message">Bikin website spesial ini khusus<br>cuma buat duniaku, Yumna! 🥹❤️</div>
-            <div class="cute-bear">🧸</div>
-            <div class="question">Mau jadi milikku selamanya gak? 🥺</div>
-            <p class="subtext">
-                Hidup ini perjalanan yang luar biasa, dan aku pengen ngejalanin setiap detiknya bareng kamu, Yumnaaa 💖
-            </p>
-            <div class="button-container">
-                <button class="btn btn-yes" onclick="nextPage(4)">IYA DONG 💕</button>
-                <button class="btn btn-no" id="noBtn1">ENGGA</button>
-            </div>
-        </div>
-    </div>
+    <!-- Floating Ambient Canvas -->
+    <canvas id="petalCanvas"></canvas>
 
-    <!-- PAGE 4: Are You Sure -->
-    <div class="page page-4" id="page4">
-        <div class="final-container">
-            <div class="top-message">Bikin website spesial ini khusus<br>cuma buat duniaku, Yumna! 🥹❤️</div>
-            <div class="cute-bear">🧸</div>
-            <div class="question">Masa iya beneran ENGGA?? 🥺</div>
-            <p class="subtext">
-                Yakin nih? Coba pikir-pikir lagi deh… 🤭💖
-            </p>
-            <div class="button-container">
-                <button class="btn btn-yes" onclick="nextPage(5)">IYA IYA IYA 💕</button>
-                <button class="btn btn-no" id="noBtn2">ENGGA</button>
-            </div>
-        </div>
-    </div>
+    <div class="page-viewport">
 
-    <!-- PAGE 5: See This -->
-    <div class="page page-5" id="page5">
-        <div class="final-container">
-            <div class="top-message">Bikin website spesial ini khusus<br>cuma buat duniaku, Yumna! 🥹❤️</div>
-            <div class="cute-bear">😱</div>
-            <div class="question">Nih ada kejutan kecil buat kamu 🤭</div>
-            <p class="subtext">
-                Yuk liat dulu, ada sesuatu yang spesial banget buat Princess Belle 👑💖
-            </p>
-            <div class="button-container">
-                <button class="btn btn-yes" onclick="nextPage(6)" style="width: 250px;">LIAT DONG! 🥰</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- PAGE 6: Happy Valentine -->
-    <div class="page page-6" id="page6">
-        <div class="final-container">
-            <div class="top-message">Bikin website spesial ini khusus<br>cuma buat duniaku, Yumna! 🥹❤️</div>
-            <div class="couple-bears">
-                <span>🧸</span>
-                <span style="color: #ff1744; font-size: 50px;">💕</span>
-                <span>👸</span>
-            </div>
-            <div class="question">Happy Anniversary, Princess Belle! 💕👑</div>
-            <p class="subtext">
-                Setiap detik bareng kamu selalu jadi celebration. Kamu adalah cahaya yang bikin duniaku jadi jauh lebih indah, Yumnaaa! ✨
-            </p>
-            <div class="button-container">
-                <button class="btn btn-yes" onclick="nextPage(7)" style="width: 250px;">LIAT KADONYA 💝</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- PAGE 7: Gifts Selection -->
-    <div class="page page-7" id="page7">
-        <div class="gifts-container">
-            <h1 class="gifts-title">Kado Spesial Buat Yumna 👑💖</h1>
-            
-            <div class="gifts-grid">
-                <div class="gift-card" onclick="openGift(1)">
-                    <div class="gift-icon">🎁</div>
-                    <div class="gift-label">Kado 1</div>
-                </div>
-                
-                <div class="gift-card" onclick="openGift(2)">
-                    <div class="gift-icon">💌</div>
-                    <div class="gift-label">Kado 2</div>
-                </div>
-                
-                <div class="gift-card" onclick="openGift(3)">
-                    <div class="gift-icon">📸</div>
-                    <div class="gift-label">Kado 3</div>
-                </div>
-            </div>
-            
-            <button class="finally-btn" onclick="finalReveal()">FINALLY ✨</button>
-        </div>
-    </div>
-
-    <!-- Gift Modal -->
-    <div class="gift-modal" id="giftModal">
-        <div class="gift-modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <div id="giftContent"></div>
-        </div>
-    </div>
-
-    <!-- PAGE 8: Final Photo -->
-    <div class="page page-8" id="page8">
-        <div class="video-container">
-            <h1 class="video-title">You Are My Forever & My Everything ❤️✨</h1>
-            
-            <div class="video-frame">
-                <img src="pertama ketemu.jpg" alt="Pertama Ketemu" class="final-video" style="width:100%;height:100%;object-fit:cover;border-radius:15px;">
-            </div>
-            
-            <div class="video-message">
-                <p class="video-text">
-                    Makasih udah selalu ada dan jadi rumah tempat aku pulang. I love you so much, Yumna! 💖🫂
+        <!-- PAGE 1: Romantic Cinematic Intro -->
+        <div class="page page-1 active" id="page1">
+            <div style="text-align: center; max-width: 580px; z-index: 10;">
+                <div class="pill-badge">✨ 3 MONTHS WITH YOU ✨</div>
+                <h1 class="hero-title">
+                    Khusus Buat Duniaku,
+                    <span class="glow-name">Yumna</span>
+                    Kado biasa mah terlalu mainstream 🙄✨
+                </h1>
+                <p style="color: rgba(255,255,255,0.75); font-size: 1rem; margin: 18px 0 28px; line-height: 1.6;">
+                    Zaa bikinin sesuatu yang spesial dan cuma ada satu-satunya di dunia, khusus buat Princess Belle 🌹👑
                 </p>
+                <button class="btn-glow" onclick="startExperience()">
+                    Buka Kejutan Kita 💌
+                </button>
             </div>
+        </div>
+
+        <!-- PAGE 2: Modern VS Code Romantic Script -->
+        <div class="page page-vscode" id="page2">
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="traffic-dots">
+                        <span class="dot-red"></span>
+                        <span class="dot-yellow"></span>
+                        <span class="dot-green"></span>
+                    </div>
+                    <div class="code-tab">
+                        <span>📄</span> happy_3_months_anniversary.js
+                    </div>
+                </div>
+                <div class="code-body" id="codeEditor"></div>
+                
+                <div class="code-reveal-overlay" id="revealMessage">
+                    <div class="pill-badge" style="margin-bottom: 12px;">🌹 PRINCESS BELLE 🌹</div>
+                    <h2 class="code-reveal-title">
+                        90 Hari Penuh Cerita Indah<br>Bareng Duniaku, Yumna! 🥹❤️
+                    </h2>
+                    <button class="btn-glow" onclick="nextPage(3)">
+                        Lanjut ke Cerita Kita ➔
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: Playful Question 1 (Runaway Button) -->
+        <div class="page" id="page3">
+            <div class="romantic-card">
+                <div class="card-top-tag">pertanyaan penting 🥺</div>
+                <div class="emoji-float">🧸💖</div>
+                <h2 class="card-title">Mau jadi milik Zaa selamanya kan? 🥺</h2>
+                <p class="card-desc">
+                    Sudah 3 bulan kita bareng, dan Zaa pengen ngejalanin setiap detik perjalanan hidup ini terus sama kamu, Yumnaaa 💖
+                </p>
+                <div class="button-arena">
+                    <button class="btn-glow" onclick="nextPage(4)">
+                        IYA DONG 💕
+                    </button>
+                    <button class="btn-runaway" id="noBtn1">
+                        ENGGA 😜
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 4: Playful Question 2 (Runaway Button) -->
+        <div class="page" id="page4">
+            <div class="romantic-card">
+                <div class="card-top-tag">yakin nih? 🧐</div>
+                <div class="emoji-float">🥺👉👈</div>
+                <h2 class="card-title">Masa beneran mau nolak Zaa??</h2>
+                <p class="card-desc">
+                    Nemenin muter ringroad, nyanyi fals di motor, makan wedangan Moewardi sampai rambut putih bareng, yakin ga mau? 🤭💖
+                </p>
+                <div class="button-arena">
+                    <button class="btn-glow" onclick="nextPage(5)">
+                        IYA MAU BANGET! 💕
+                    </button>
+                    <button class="btn-runaway" id="noBtn2">
+                        ENGGA 😜
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 5: Anticipation Transition -->
+        <div class="page" id="page5">
+            <div class="romantic-card">
+                <div class="card-top-tag">taraaa! 🤭✨</div>
+                <div class="emoji-float">🎁👑</div>
+                <h2 class="card-title">Nih ada hadiah spesial buat kamu!</h2>
+                <p class="card-desc">
+                    Zaa udah siapin sesuatu yang cuma dibuat buat Princess Belle seorang. Yuk buka sekarang! 🥰
+                </p>
+                <button class="btn-glow" onclick="nextPage(6)" style="width: 100%; max-width: 280px;">
+                    LIAT SEKARANG! 💝
+                </button>
+            </div>
+        </div>
+
+        <!-- PAGE 6: Happy 3rd Month Anniversary Main Page -->
+        <div class="page" id="page6">
+            <div class="romantic-card">
+                <div class="card-top-tag">happy 3rd monthversary 👑</div>
+                
+                <div class="anniv-badge-container">
+                    <div class="anniv-badge-ring"></div>
+                    <div class="anniv-badge-core">
+                        <span class="number">3</span>
+                        <span class="label">BULAN</span>
+                    </div>
+                </div>
+
+                <h2 class="card-title" style="margin-top: 4px;">
+                    Happy 3rd Month Anniversary, Princess Belle! 👑💕
+                </h2>
+                
+                <div class="anniv-stats">
+                    <div class="anniv-stat-item">
+                        <b>90</b>
+                        <span>Hari</span>
+                    </div>
+                    <div class="anniv-stat-item">
+                        <b>2.160</b>
+                        <span>Jam</span>
+                    </div>
+                    <div class="anniv-stat-item">
+                        <b>Saturn & Back</b>
+                        <span>Cintanya</span>
+                    </div>
+                </div>
+
+                <p class="card-desc" style="margin-bottom: 22px;">
+                    Tiga bulan terasa begitu cepat karena setiap detik bareng kamu selalu membahagiakan. Kamu cahaya yang bikin dunia Zaa jauh lebih indah dan berarti, Yumnaaa ✨
+                </p>
+
+                <button class="btn-glow" onclick="nextPage(7)" style="width: 100%; max-width: 290px;">
+                    BUKA 3 KADO SPESIAL 💝
+                </button>
+            </div>
+        </div>
+
+        <!-- PAGE 7: 3 Mystery Gifts -->
+        <div class="page" id="page7">
+            <div class="romantic-card" style="max-width: 540px;">
+                <div class="card-top-tag">buka semua kadonya ya 🎀</div>
+                <h2 class="card-title" style="margin-top: 6px;">Kado Spesial 3 Bulan Buat Yumna 👑</h2>
+                <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 10px;">
+                    Ketuk kado di bawah satu per satu untuk membukanya:
+                </p>
+
+                <div class="gifts-grid">
+                    <div class="gift-box-card" id="giftCard1" onclick="openGift(1)">
+                        <div class="gift-box-icon">🧠</div>
+                        <div class="gift-box-title">Kado 1</div>
+                        <div class="gift-box-sub">Kuis Kenangan</div>
+                    </div>
+                    
+                    <div class="gift-box-card" id="giftCard2" onclick="openGift(2)">
+                        <div class="gift-box-icon">💌</div>
+                        <div class="gift-box-title">Kado 2</div>
+                        <div class="gift-box-sub">Surat Cinta</div>
+                    </div>
+                    
+                    <div class="gift-box-card" id="giftCard3" onclick="openGift(3)">
+                        <div class="gift-box-icon">📸</div>
+                        <div class="gift-box-title">Kado 3</div>
+                        <div class="gift-box-sub">Album Momen</div>
+                    </div>
+                </div>
+
+                <button class="btn-glow" onclick="finalReveal()" style="width: 100%; max-width: 260px;">
+                    HALAMAN TERAKHIR ✨
+                </button>
+            </div>
+        </div>
+
+        <!-- PAGE 8: Grand Finale Closing Page -->
+        <div class="page" id="page8">
+            <div class="romantic-card" style="max-width: 500px;">
+                <div class="card-top-tag">you are my forever 💍✨</div>
+                
+                <h2 class="card-title" style="margin-top: 10px;">
+                    You Are My Forever &amp; My Everything ❤️
+                </h2>
+
+                <div class="finale-polaroid-hero">
+                    <img src="pertama ketemu.jpg" alt="Momen Pertama Ketemu" onclick="showLightbox('pertama ketemu.jpg', 'Pertama kali ketemu 🌷')">
+                    <p>pertama kali ketemu 🌷</p>
+                </div>
+
+                <p class="finale-message-box">
+                    "Makasih banyak udah selalu ada dan jadi rumah tempat aku pulang. Selamat 3 bulan bareng Zaa, Princess Belle. I love you to Saturn and all the way back, Yumna! 💖🫂"
+                </p>
+
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn-glow" onclick="burstConfetti()" style="padding: 13px 26px;">
+                        Rayakan Bareng! 🎉
+                    </button>
+                    <button class="btn-glow" onclick="nextPage(1)" style="padding: 13px 24px; background: linear-gradient(135deg, #7a1236, #3a0d1e);">
+                        Putar Ulang 🔄
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Generic Modal Veil -->
+    <div class="modal-veil" id="giftModal" onclick="handleModalOutsideClick(event)">
+        <div class="modal-card">
+            <button class="modal-close-btn" onclick="closeModal()" aria-label="Tutup">&times;</button>
+            <div id="modalContentContainer"></div>
+        </div>
+    </div>
+
+    <!-- Lightbox Full Image Preview -->
+    <div class="lightbox-overlay" id="lightboxModal" onclick="closeLightbox()">
+        <div class="lightbox-content">
+            <img id="lightboxImg" src="" alt="Full Photo">
+            <div class="lightbox-caption" id="lightboxCaption"></div>
         </div>
     </div>
 
     <script>
-        // Code lines to type
-        const codeLines = [
-            '<span class="comment">// Spesial untuk duniaku, Yumna 💕</span>',
-            '<span class="keyword">const</span> <span class="property">kadoBiasa</span> = <span class="string">"terlalu mainstream"</span>;',
+        /* =========================================================================
+           1. VS CODE LOVE SCRIPT CONTENT
+           ========================================================================= */
+        const scriptCodeLines = [
+            '<span class="code-comment">// Happy 3rd Month Anniversary, Yumna 💕</span>',
+            '<span class="code-keyword">const</span> <span class="code-prop">hariBersama</span> = <span class="code-string">"90 hari penuh cerita..."</span>;',
             '',
-            '<span class="keyword">function</span> <span class="function">buatKadoSpesial</span>() {',
-            '  <span class="keyword">const</span> <span class="property">duniaku</span> = {',
-            '    <span class="property">nama</span>: <span class="string">"Yumna, Princess Belle-ku 👑"</span>,',
-            '    <span class="property">hobiUnik</span>: <span class="string">"MANIAK BGT sama Princess Belle 🌹👑"</span>,',
-            '    <span class="property">senyum</span>: <span class="string">"bikin hari-hari aku terang benderang"</span>,',
-            '    <span class="property">loveMeter</span>: <span class="string">"tumpah-tumpah to Saturn and back! 🌌✨"</span>',
+            '<span class="code-keyword">function</span> <span class="code-func">bikinKadoSpesial</span>() {',
+            '  <span class="code-keyword">const</span> <span class="code-prop">duniaku</span> = {',
+            '    <span class="code-prop">nama</span>: <span class="code-string">"Yumna, Princess Belle-ku 👑"</span>,',
+            '    <span class="code-prop">hobi</span>: <span class="code-string">"MANIAK BGT sama Princess Belle 🌹"</span>,',
+            '    <span class="code-prop">senyum</span>: <span class="code-string">"bikin hari-hari Zaa selalu terang"</span>,',
+            '    <span class="code-prop">status</span>: <span class="code-string">"temen selamanya &amp; rumah tempat pulang 🏡"</span>,',
+            '    <span class="code-prop">loveMeter</span>: <span class="code-string">"tumpah-tumpah to Saturn and back! 🌌✨"</span>',
             '  };',
-            '  <span class="keyword">return</span> <span class="string">"Website ini dibuat dengan cinta, khusus buat Yumna ❤️"</span>;',
+            '  <span class="code-keyword">return</span> <span class="code-string">"Website ini khusus dibuat dengan cinta buat Yumna ❤️"</span>;',
             '}',
             '',
-            '<span class="function">buatKadoSpesial</span>();'
+            '<span class="code-func">bikinKadoSpesial</span>();'
         ];
 
-        // Auto-start sequence
-        setTimeout(() => {
-            nextPage(2);
-            setTimeout(typeCode, 500);
-        }, 3000);
+        /* =========================================================================
+           2. AUDIO & HINT MANAGEMENT
+           ========================================================================= */
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggleBtn = document.getElementById('musicToggleBtn');
+        const audioHint = document.getElementById('audioHint');
+        let musicStarted = false;
 
-        function nextPage(pageNum) {
+        function startMusicSafe() {
+            if (musicStarted) return;
+            bgMusic.play().then(() => {
+                musicStarted = true;
+                musicToggleBtn.classList.remove('paused');
+                audioHint.style.display = 'none';
+            }).catch(() => {
+                // Browser policy blocked autoplay; keep hint visible
+                audioHint.style.display = 'block';
+            });
+        }
+
+        document.addEventListener('click', () => {
+            if (!musicStarted) startMusicSafe();
+        }, { once: false });
+
+        musicToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicToggleBtn.classList.remove('paused');
+            } else {
+                bgMusic.pause();
+                musicToggleBtn.classList.add('paused');
+            }
+        });
+
+        function startExperience() {
+            startMusicSafe();
+            nextPage(2);
+            setTimeout(runCodeTyper, 400);
+        }
+
+        /* =========================================================================
+           3. PAGE NAVIGATION
+           ========================================================================= */
+        function nextPage(pageIndex) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('page' + pageNum).classList.add('active');
-            
-            if (pageNum === 3) {
-                createHearts();
+            const targetPage = document.getElementById('page' + pageIndex);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            if (pageIndex === 6 || pageIndex === 8) {
+                burstConfetti();
             }
         }
 
-        function typeCode() {
+        /* =========================================================================
+           4. CODE TYPING ANIMATION (PAGE 2)
+           ========================================================================= */
+        let codeTypedAlready = false;
+        function runCodeTyper() {
+            if (codeTypedAlready) return;
+            codeTypedAlready = true;
             const editor = document.getElementById('codeEditor');
-            let i = 0;
+            editor.innerHTML = '';
+            let lineIdx = 0;
 
-            function addLine() {
-                if (i < codeLines.length) {
-                    const div = document.createElement('div');
-                    div.className = 'code-line';
-                    div.innerHTML = codeLines[i];
-                    editor.appendChild(div);
+            function typeNextLine() {
+                if (lineIdx < scriptCodeLines.length) {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'code-line';
+                    lineDiv.innerHTML = scriptCodeLines[lineIdx];
+                    editor.appendChild(lineDiv);
                     
-                    setTimeout(() => {
-                        div.style.opacity = '1';
-                    }, 50);
-                    
-                    i++;
-                    setTimeout(addLine, 200);
+                    setTimeout(() => { lineDiv.style.opacity = '1'; }, 40);
+                    lineIdx++;
+                    setTimeout(typeNextLine, 180);
                 } else {
                     setTimeout(() => {
-                        document.getElementById('revealMessage').style.display = 'block';
-                        setTimeout(() => nextPage(3), 3000);
-                    }, 500);
+                        const overlay = document.getElementById('revealMessage');
+                        overlay.style.display = 'flex';
+                    }, 400);
                 }
             }
-            addLine();
+            typeNextLine();
         }
 
-        // Moving NO button for page 3
-        const noBtn1 = document.getElementById('noBtn1');
-        noBtn1.addEventListener('mouseenter', () => moveNoButton(noBtn1));
-        noBtn1.addEventListener('click', () => moveNoButton(noBtn1));
+        /* =========================================================================
+           5. PLAYFUL RUNAWAY NO BUTTON (PAGES 3 & 4)
+           ========================================================================= */
+        ['noBtn1', 'noBtn2'].forEach(btnId => {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
 
-        // Moving NO button for page 4
-        const noBtn2 = document.getElementById('noBtn2');
-        noBtn2.addEventListener('mouseenter', () => moveNoButton(noBtn2));
-        noBtn2.addEventListener('click', () => moveNoButton(noBtn2));
-
-        function moveNoButton(btn) {
-            const container = btn.closest('.button-container');
-            const maxX = container.offsetWidth - 100;
-            const maxY = 80;
-            
-            btn.style.left = Math.random() * maxX + 'px';
-            btn.style.top = (Math.random() * maxY - 20) + 'px';
-        }
-
-        function createHearts() {
-            setInterval(() => {
-                const heart = document.createElement('div');
-                heart.className = 'heart';
-                heart.innerHTML = ['❤️', '💕', '💖', '💗'][Math.floor(Math.random() * 4)];
-                heart.style.left = Math.random() * 100 + '%';
-                document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 4000);
-            }, 300);
-        }
-
-        function showGifts() {
-            document.getElementById('successMessage').style.display = 'block';
-            createFireworks();
-        }
-
-        function openGift(giftNum) {
-            const modal = document.getElementById('giftModal');
-            const content = document.getElementById('giftContent');
-            
-            if (giftNum === 1) {
-                // Start the quiz
-                content.innerHTML = `
-                    <h2>💖 Kado 1: Kuis Cinta Kita!</h2>
-                    <p style="margin-bottom: 20px;">Yuk jawab semua pertanyaan ini buat buktiin kamu tau banyak soal Zaa! 😊</p>
-                    <div id="quizContainer"></div>
-                `;
-                modal.classList.add('active');
-                startQuiz();
-                return;
-            }
-            
-            if (giftNum === 2) {
-                // Show the love letter
-                content.innerHTML = `
-                    <div class="letter-container">
-                        <h2 style="color: #000; margin-bottom: 30px; font-family: Georgia, serif;">Surat Spesial Buat Kamu 🥰</h2>
-                        <div class="letter-paper">
-                            <p class="letter-greeting">Dear duniaku, Yumna Nduttt…. 🌷✨</p>
-                            <p class="letter-text">
-                                Makasih banyak ya udah hadir dan bikin hari-hari aku selalu terang benderang. Dari ngobrol santai bareng, ngobrol serius bareng, nyanyi di atas motor bareng, revisian bareng (meskipun gapernah 🙄), sampai ngetreat setiap masakan enak yang kamu bikin khusus buat aku dan masakanku juga 🍲✨. Semuanya bakal selalu jadi hal baru dan pelajaran hidup yang gaakan pernah aku lupain, dan aku ngerasa jadi orang paling beruntung di dunia.
-                            </p>
-                            <p class="letter-text">
-                                Hal yang paling aku syukuri adalah kebaikan dan kehangatan kamu. Mau sebanyak apa pun riuhnya dunia, mau sejauh apa pun kita melangkah, dan dalam keadaan apa pun—kamu akan selalu jadi yang terbaik buat aku.
-                            </p>
-                            <p class="letter-text">
-                                Janji sama aku ya, jangan capek-capek, selalu jaga diri baik-baik, dan tetep jadi Yumna asal Ngawi ini yang selalu bawa kebahagiaan 🥺💖. Aku janji bakal selalu ada buat peluk kamu kenceng-kenceng dan sayang sama kamu dalam kondisi apa pun.
-                            </p>
-                            <p class="letter-signature">Love you continuously to Saturn and all the way back,<br>Zaa ❤️✨</p>
-                        </div>
-                        <button class="next-btn" onclick="closeModal()">NEXT</button>
-                    </div>
-                `;
-                modal.classList.add('active');
-                return;
-            }
-
-            if (giftNum === 3) {
-                // Show the photo gallery
-                content.innerHTML = `
-                    <div class="gallery-container">
-                        <h2 style="color: #000; margin-bottom: 30px; font-family: Georgia, serif;">Momen-momen kita 🥰</h2>
-                        <div class="photo-grid">
-                            <div class="photo-card">
-                                <div class="photo-frame">
-                                    <img src="jogging manahan.jpg" alt="Jogging Manahan" class="gallery-photo">
-                                </div>
-                                <p class="photo-caption">Awal kita jogging malam ✨</p>
-                            </div>
-                            
-                            <div class="photo-card">
-                                <div class="photo-frame">
-                                    <img src="nugas bareng.png" alt="Nugas Bareng" class="gallery-photo">
-                                </div>
-                                <p class="photo-caption">nugass bareng di 8 inget gakkk 💖</p>
-                            </div>
-                            
-                            <div class="photo-card">
-                                <div class="photo-frame">
-                                    <img src="potobooth pakuwon.jpg" alt="Potobooth Pakuwon" class="gallery-photo">
-                                </div>
-                                <p class="photo-caption">sesi potret yang akan selalu kuingat 🎤</p>
-                            </div>
-                            
-                            <div class="photo-card">
-                                <div class="photo-frame">
-                                    <img src="naik motor.jpg" alt="Naik Motor" class="gallery-photo">
-                                </div>
-                                <p class="photo-caption">kalaa itu di jogjaaa 🍲</p>
-                            </div>
-                            
-                            <div class="photo-card">
-                                <div class="photo-frame">
-                                    <img src="makan masakan yumna.jpg" alt="Makan Masakan Yumna" class="gallery-photo">
-                                </div>
-                                <p class="photo-caption">asiiikkk bgt makan masakan princessss 🥰</p>
-                            </div>
-                            
-                            <div class="photo-card">
-                                <div class="photo-frame">
-                                    <img src="makan depan moewardi.jpg" alt="Makan Depan Moewardi" class="gallery-photo">
-                                </div>
-                                <p class="photo-caption">keseharian kita heheh selalu wedangannn 🌷</p>
-                            </div>
-                        </div>
-                        <button class="next-btn" onclick="closeModal()">NEXT</button>
-                    </div>
-                `;
-                modal.classList.add('active');
-                return;
-            }
-            
-            const gifts = {
-                3: {
-                    title: '❤️ Gift 3: My Promise',
-                    message: 'I promise to always be there for you, to support your dreams, to make you smile when you\'re sad, and to love you more with each passing day. You are my forever, my always, my everything! 💝'
-                }
+            const dodge = (e) => {
+                if (e.type === 'touchstart') e.preventDefault();
+                const container = btn.closest('.button-arena') || btn.parentElement;
+                const maxX = Math.max(50, (container.offsetWidth / 2) - 50);
+                const randomX = (Math.random() - 0.5) * (maxX * 1.8);
+                const randomY = (Math.random() - 0.5) * 80;
+                btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
             };
 
-            const gift = gifts[giftNum];
-            content.innerHTML = `
-                <h2>${gift.title}</h2>
-                <p>${gift.message}</p>
-            `;
+            btn.addEventListener('mouseenter', dodge);
+            btn.addEventListener('click', dodge);
+            btn.addEventListener('touchstart', dodge, { passive: false });
+        });
+
+        /* =========================================================================
+           6. MODAL & 3 GIFTS CONTENT
+           ========================================================================= */
+        function openGift(giftNumber) {
+            const modal = document.getElementById('giftModal');
+            const container = document.getElementById('modalContentContainer');
             
-            modal.classList.add('active');
+            // Mark gift as opened
+            const cardElem = document.getElementById('giftCard' + giftNumber);
+            if (cardElem) cardElem.classList.add('opened');
+
+            if (giftNumber === 1) {
+                // Gift 1: Love Quiz
+                container.innerHTML = `
+                    <div class="pill-badge" style="margin-bottom: 8px;">KADO 1: LOVE QUIZ 🧠</div>
+                    <h2 class="card-title" style="margin-top: 0;">Kuis Kenangan Kita 💖</h2>
+                    <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 16px;">
+                        Yuk jawab 5 pertanyaan ini, buktiin kamu tau banyak soal Zaa! 😊
+                    </p>
+                    <div id="quizContent"></div>
+                `;
+                modal.classList.add('active');
+                initQuiz();
+                return;
+            }
+
+            if (giftNumber === 2) {
+                // Gift 2: Love Letter
+                container.innerHTML = `
+                    <div class="pill-badge" style="margin-bottom: 6px;">KADO 2: LOVE LETTER 💌</div>
+                    <h2 class="card-title" style="margin-top: 0;">Surat Spesial Buat Yumna 🥰</h2>
+                    
+                    <div class="vintage-letter-wrap">
+                        <div class="letter-seal-icon">🕯️🌹</div>
+                        <p class="letter-intro-greet">Dear duniaku, Yumna Nduttt…. 🌷✨</p>
+                        
+                        <p class="letter-body-p">
+                            Makasih banyak ya udah hadir dan bikin hari-hari aku selalu terang benderang. Dari ngobrol santai bareng, ngobrol serius bareng, nyanyi di atas motor bareng, revisian bareng (meskipun gapernah 🙄), sampai ngetreat setiap masakan enak yang kamu bikin khusus buat aku dan masakanku juga 🍲✨.
+                        </p>
+                        <p class="letter-body-p">
+                            Semuanya bakal selalu jadi hal baru dan pelajaran hidup yang gaakan pernah aku lupain, dan aku ngerasa jadi orang paling beruntung di dunia.
+                        </p>
+                        <p class="letter-body-p">
+                            Hal yang paling aku syukuri adalah kebaikan dan kehangatan kamu. Mau sebanyak apa pun riuhnya dunia, mau sejauh apa pun kita melangkah, dan dalam keadaan apa pun—kamu akan selalu jadi yang terbaik buat aku.
+                        </p>
+                        <p class="letter-body-p">
+                            Janji sama aku ya, jangan capek-capek, selalu jaga diri baik-baik, dan tetep jadi Yumna asal Ngawi ini yang selalu bawa kebahagiaan 🥺💖. Aku janji bakal selalu ada buat peluk kamu kenceng-kenceng dan sayang sama kamu dalam kondisi apa pun.
+                        </p>
+                        
+                        <div class="letter-signature-block">
+                            Love you continuously to Saturn and all the way back,<br>
+                            <span style="font-size: 1.8rem; color: var(--rose-primary);">Zaa ❤️✨</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-glow" onclick="closeModal()" style="width: 100%; max-width: 260px;">
+                        TUTUP SURAT 💌
+                    </button>
+                `;
+                modal.classList.add('active');
+                return;
+            }
+
+            if (giftNumber === 3) {
+                // Gift 3: Photo Gallery
+                const photoAlbum = [
+                    { file: 'jogging manahan.jpg', caption: 'Awal kita jogging malam ✨' },
+                    { file: 'nugas bareng.png', caption: 'nugass bareng di 8 inget gakkk 💖' },
+                    { file: 'potobooth pakuwon.jpg', caption: 'sesi potret yang akan selalu kuingat 🎤' },
+                    { file: 'naik motor.jpg', caption: 'kalaa itu di jogjaaa 🍲' },
+                    { file: 'makan masakan yumna.jpg', caption: 'asiiikkk bgt makan masakan princessss 🥰' },
+                    { file: 'makan depan moewardi.jpg', caption: 'keseharian kita heheh selalu wedangannn 🌷' }
+                ];
+
+                container.innerHTML = `
+                    <div class="pill-badge" style="margin-bottom: 6px;">KADO 3: ALBUM KENANGAN 📸</div>
+                    <h2 class="card-title" style="margin-top: 0;">Momen-Momen Indah Kita 🥰</h2>
+                    <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 10px;">
+                        Ketuk foto mana saja untuk melihat ukuran penuh:
+                    </p>
+                    
+                    <div class="gallery-photo-grid">
+                        ${photoAlbum.map(p => `
+                            <div class="polaroid-card" onclick="showLightbox('${p.file}', '${p.caption}')">
+                                <div class="polaroid-frame">
+                                    <img src="${p.file}" alt="${p.caption}" class="polaroid-img" loading="lazy">
+                                </div>
+                                <div class="polaroid-label">${p.caption}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <button class="btn-glow" onclick="closeModal()" style="width: 100%; max-width: 240px;">
+                        TUTUP ALBUM 📸
+                    </button>
+                `;
+                modal.classList.add('active');
+                return;
+            }
         }
 
-        // Quiz Questions
-        const quizQuestions = [
+        function closeModal() {
+            document.getElementById('giftModal').classList.remove('active');
+        }
+
+        function handleModalOutsideClick(e) {
+            if (e.target.id === 'giftModal') {
+                closeModal();
+            }
+        }
+
+        function finalReveal() {
+            nextPage(8);
+        }
+
+        /* =========================================================================
+           7. QUIZ ENGINE
+           ========================================================================= */
+        const quizList = [
             {
                 question: "Kalau Yumna lagi capek banget habis nemenin orang atau kerja, Zaa biasanya ingetin apa? 🥺",
                 options: [
@@ -1045,139 +1548,210 @@
             }
         ];
 
-        let currentQuestion = 0;
-        let correctAnswers = 0;
+        let quizCurrentIdx = 0;
+        let quizCorrectScore = 0;
 
-        function startQuiz() {
-            currentQuestion = 0;
-            correctAnswers = 0;
-            showQuestion();
+        function initQuiz() {
+            quizCurrentIdx = 0;
+            quizCorrectScore = 0;
+            renderQuizQuestion();
         }
 
-        function showQuestion() {
-            const quiz = quizQuestions[currentQuestion];
-            const container = document.getElementById('quizContainer');
-            
+        function renderQuizQuestion() {
+            const container = document.getElementById('quizContent');
+            const item = quizList[quizCurrentIdx];
+            const progressPct = ((quizCurrentIdx) / quizList.length) * 100;
+
             container.innerHTML = `
-                <div class="quiz-question">
-                    <h3 style="color: #ff1744; margin-bottom: 20px;">Pertanyaan ${currentQuestion + 1}/5</h3>
-                    <p style="font-size: 1.2em; margin-bottom: 25px; color: #333;">${quiz.question}</p>
-                    <div class="quiz-options">
-                        ${quiz.options.map((option, index) => `
-                            <button class="quiz-option" onclick="checkAnswer(${index})">
-                                ${option}
-                            </button>
-                        `).join('')}
-                    </div>
+                <div class="quiz-step-progress">
+                    <div class="quiz-step-fill" style="width: ${progressPct}%"></div>
+                </div>
+                <div style="font-size: 0.85rem; font-weight: 700; color: var(--rose-primary); margin-bottom: 8px;">
+                    PERTANYAAN ${quizCurrentIdx + 1} DARI ${quizList.length}
+                </div>
+                <p class="quiz-card-question">${item.question}</p>
+                <div class="quiz-choice-list">
+                    ${item.options.map((opt, i) => `
+                        <button class="quiz-choice-btn" onclick="submitQuizAnswer(${i})">
+                            ${opt}
+                        </button>
+                    `).join('')}
                 </div>
             `;
         }
 
-        function checkAnswer(selectedIndex) {
-            const quiz = quizQuestions[currentQuestion];
-            const container = document.getElementById('quizContainer');
-            
-            if (selectedIndex === quiz.correct) {
-                correctAnswers++;
-                container.innerHTML = `
-                    <div class="quiz-result correct">
-                        <h2 style="color: #4CAF50; font-size: 3em;">✓</h2>
-                        <h3 style="color: #4CAF50;">Benerrr! 🎉</h3>
-                        <p style="margin: 20px 0; font-style: italic; color: #555;">"${quiz.correctQuote}"</p>
-                        <button class="quiz-next-btn" onclick="nextQuestion()">Pertanyaan Selanjutnya ➜</button>
+        function submitQuizAnswer(chosenIdx) {
+            const container = document.getElementById('quizContent');
+            const item = quizList[quizCurrentIdx];
+            const isRight = (chosenIdx === item.correct);
+            if (isRight) quizCorrectScore++;
+
+            const nextPct = ((quizCurrentIdx + 1) / quizList.length) * 100;
+
+            container.innerHTML = `
+                <div class="quiz-step-progress">
+                    <div class="quiz-step-fill" style="width: ${nextPct}%"></div>
+                </div>
+                <div class="quiz-answer-feedback">
+                    <div style="font-size: 3.4rem; line-height: 1; margin-bottom: 8px;">
+                        ${isRight ? '🎉' : '🥺'}
                     </div>
-                `;
+                    <h3 style="font-family: var(--font-serif); font-size: 1.8rem; color: ${isRight ? '#2e8b57' : 'var(--wine)'}; margin-bottom: 6px;">
+                        ${isRight ? 'Benerrr Banget! 💯' : 'Salaaahhh! Tapi gapapa…'}
+                    </h3>
+                    <div class="quiz-quote-box">
+                        "${isRight ? item.correctQuote : item.wrongQuote}"
+                    </div>
+                    <button class="btn-glow" onclick="advanceQuiz()" style="width: 100%; max-width: 260px;">
+                        ${quizCurrentIdx === quizList.length - 1 ? 'Lihat Hasil Akhir ➔' : 'Pertanyaan Berikutnya ➔'}
+                    </button>
+                </div>
+            `;
+        }
+
+        function advanceQuiz() {
+            quizCurrentIdx++;
+            if (quizCurrentIdx < quizList.length) {
+                renderQuizQuestion();
             } else {
-                container.innerHTML = `
-                    <div class="quiz-result wrong">
-                        <h2 style="color: #ff1744; font-size: 3em;">✗</h2>
-                        <h3 style="color: #ff1744;">Salaaahhh! Tapi gapapa… 🥺</h3>
-                        <p style="margin: 20px 0; font-style: italic; color: #555;">"${quiz.wrongQuote}"</p>
-                        <button class="quiz-next-btn" onclick="nextQuestion()">Pertanyaan Selanjutnya ➜</button>
-                    </div>
-                `;
+                renderQuizFinal();
             }
         }
 
-        function nextQuestion() {
-            currentQuestion++;
-            
-            if (currentQuestion < quizQuestions.length) {
-                showQuestion();
-            } else {
-                showQuizResults();
+        function renderQuizFinal() {
+            const container = document.getElementById('quizContent');
+            const isPerfect = (quizCorrectScore === quizList.length);
+
+            container.innerHTML = `
+                <div style="text-align: center; padding: 12px 6px;">
+                    <div style="font-size: 4rem; margin-bottom: 10px;">${isPerfect ? '💯' : '🥰'}</div>
+                    <h3 style="font-family: var(--font-serif); font-size: 2.1rem; color: var(--wine); margin-bottom: 12px;">
+                        ${isPerfect ? 'LULUS DENGAN NILAI SEMPURNA!' : `Kamu Dapat Skor ${quizCorrectScore}/${quizList.length} 💕`}
+                    </h3>
+                    <p style="font-size: 1rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 18px;">
+                        ${isPerfect 
+                            ? 'Semua bener! Kamu beneran tau banget soal Zaa ya 🥹 Bukti kalau kita emang saling kenal dan nyambung luar biasa. To Saturn and all the way back, Yumnaaa! 💕✨'
+                            : 'Nilainya ga penting kok, yang paling penting kamu udah memenangkan hati Zaa sepenuhnya! Setiap hari bareng kamu adalah anugerah terindah. I love you, Princess Belle! 💖'
+                        }
+                    </p>
+                    <button class="btn-glow" onclick="closeModal()" style="width: 100%; max-width: 240px;">
+                        SELESAI 💖
+                    </button>
+                </div>
+            `;
+            if (isPerfect) burstConfetti();
+        }
+
+        /* =========================================================================
+           8. LIGHTBOX PREVIEW
+           ========================================================================= */
+        function showLightbox(src, caption) {
+            const lb = document.getElementById('lightboxModal');
+            const img = document.getElementById('lightboxImg');
+            const cap = document.getElementById('lightboxCaption');
+            img.src = src;
+            cap.textContent = caption || '';
+            lb.classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').classList.remove('active');
+        }
+
+        /* =========================================================================
+           9. CANVASES: FLOATING PETALS & STARS
+           ========================================================================= */
+        const canvas = document.getElementById('petalCanvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const particles = [];
+        const particleIcons = ['🌸', '✨', '💕', '🌹', '⭐', '💖'];
+
+        for (let i = 0; i < 35; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                icon: particleIcons[Math.floor(Math.random() * particleIcons.length)],
+                size: 14 + Math.random() * 16,
+                speedY: 0.6 + Math.random() * 1.2,
+                speedX: (Math.random() - 0.5) * 0.8,
+                rotation: Math.random() * 360,
+                rotSpeed: (Math.random() - 0.5) * 1.5,
+                opacity: 0.35 + Math.random() * 0.5
+            });
+        }
+
+        function animatePetals() {
+            ctx.clearRect(0, 0, width, height);
+
+            particles.forEach(p => {
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate((p.rotation * Math.PI) / 180);
+                ctx.globalAlpha = p.opacity;
+                ctx.font = `${p.size}px sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(p.icon, 0, 0);
+                ctx.restore();
+
+                p.y += p.speedY;
+                p.x += p.speedX;
+                p.rotation += p.rotSpeed;
+
+                if (p.y > height + 30) {
+                    p.y = -20;
+                    p.x = Math.random() * width;
+                }
+                if (p.x < -30) p.x = width + 20;
+                if (p.x > width + 30) p.x = -20;
+            });
+
+            requestAnimationFrame(animatePetals);
+        }
+        animatePetals();
+
+        /* =========================================================================
+           10. CONFETTI BURST EFFECT
+           ========================================================================= */
+        function burstConfetti() {
+            const confettiColors = ['#ff4d79', '#ffd166', '#c2185b', '#ffffff', '#ff9ebb'];
+            for (let i = 0; i < 50; i++) {
+                const conf = document.createElement('div');
+                conf.style.position = 'fixed';
+                conf.style.left = '50%';
+                conf.style.top = '50%';
+                conf.style.width = (8 + Math.random() * 8) + 'px';
+                conf.style.height = (8 + Math.random() * 12) + 'px';
+                conf.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                conf.style.zIndex = '9999';
+                conf.style.pointerEvents = 'none';
+                
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 100 + Math.random() * 260;
+                const destX = Math.cos(angle) * distance;
+                const destY = Math.sin(angle) * distance;
+                const rot = Math.random() * 720;
+
+                conf.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease';
+                document.body.appendChild(conf);
+
+                requestAnimationFrame(() => {
+                    conf.style.transform = `translate(${destX}px, ${destY}px) rotate(${rot}deg)`;
+                    conf.style.opacity = '0';
+                });
+
+                setTimeout(() => conf.remove(), 1300);
             }
         }
-
-        function showQuizResults() {
-            const container = document.getElementById('quizContainer');
-            
-            if (correctAnswers === 5) {
-                container.innerHTML = `
-                    <div class="quiz-final">
-                        <h2 style="color: #4CAF50; font-size: 2.5em; margin-bottom: 20px;">🎊 Perfect Score! 🎊</h2>
-                        <div style="font-size: 4em; margin: 20px 0;">💯</div>
-                        <h3 style="color: #ff1744;">Kamu Lulus Love Test!</h3>
-                        <p style="margin: 20px 0; font-size: 1.1em; line-height: 1.6;">
-                            Semua bener! Kamu beneran tau banget soal Zaa ya 🥹
-                            Ini bukti kalau kita emang udah saling kenal dan saling nyambung luar biasa! 
-                            To Saturn and back, Yumnaaa 💕✨
-                        </p>
-                        <div style="font-size: 3em; margin-top: 20px;">❤️✨💖</div>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = `
-                    <div class="quiz-final">
-                        <h2 style="color: #ff1744; font-size: 2.5em; margin-bottom: 20px;">Kamu Dapat ${correctAnswers}/5! 💕</h2>
-                        <p style="margin: 20px 0; font-size: 1.1em; line-height: 1.6;">
-                            Nilainya gapenting sih, karena yang penting kamu udah ngeluluhkan hati Zaa habis-habisan!
-                            Setiap hari bareng kamu adalah anugerah. I love you so much, Yumnaaa! 💖
-                        </p>
-                        <p style="font-style: italic; color: #555; margin-top: 20px;">
-                            "Cinta bukan soal tau segalanya — tapi soal mau belajar semuanya bareng." ✨
-                        </p>
-                        <div style="font-size: 3em; margin-top: 20px;">🥰💝🌹</div>
-                    </div>
-                `;
-            }
-        }
-
-        function closeModal() {
-            document.getElementById('giftModal').classList.remove('active');
-        }
-
-        function finalReveal() {
-            nextPage(8);
-        }
-
-        function createFireworks() {
-            const emojis = ['🎉', '✨', '💫', '⭐', '🌟', '💝', '❤️'];
-            for (let i = 0; i < 30; i++) {
-                setTimeout(() => {
-                    const fw = document.createElement('div');
-                    fw.style.position = 'fixed';
-                    fw.style.left = Math.random() * 100 + '%';
-                    fw.style.top = Math.random() * 100 + '%';
-                    fw.style.fontSize = (Math.random() * 30 + 20) + 'px';
-                    fw.style.pointerEvents = 'none';
-                    fw.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
-                    document.body.appendChild(fw);
-                    
-                    setTimeout(() => fw.remove(), 2000);
-                }, i * 100);
-            }
-        }
-window.addEventListener("load", function () {
-    const music = document.getElementById("bgMusic");
-
-    function startMusic() {
-        music.play().catch(() => {});
-        document.removeEventListener("click", startMusic);
-    }
-
-    document.addEventListener("click", startMusic);
-});
     </script>
 </body>
 </html>
