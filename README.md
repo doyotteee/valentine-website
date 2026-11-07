@@ -1,11 +1,11 @@
 <div align="center">
 
-# 💖 Valentine Interactive Website
+# 💖 Special for My World, Yumnaa 💕✨
 
-### A Romantic & Interactive Valentine Experience Built With Pure Frontend Magic ✨
+### A Romantic & Interactive Web Experience Made with Pure Love by Zaa 👑🌹
 
 <p align="center">
-  An immersive Valentine-themed website featuring romantic animations, interactive surprises, love quizzes, music, emotional storytelling, and modern UI effects.
+  Sebuah website interaktif penuh cinta yang dibuat khusus untuk duniaku, Yumna (Princess Belle). Dilengkapi animasi koding, surat cinta personal, kuis kenangan, galeri foto kebersamaan, dan lagu spesial dari LANY.
 </p>
 
 <br/>
@@ -13,235 +13,45 @@
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Responsive](https://img.shields.io/badge/Responsive-Design-ff69b4?style=for-the-badge)
-![Frontend](https://img.shields.io/badge/Frontend-Project-ff4d6d?style=for-the-badge)
-![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)
-![License](https://img.shields.io/badge/License-MIT-pink?style=for-the-badge)
 ![Made With Love](https://img.shields.io/badge/Made%20With-❤️-ff4d6d?style=for-the-badge)
-
-<br/>
-
-[🌐 Live Demo](https://valentine-website-eight-taupe.vercel.app/) • 
-[💻 GitHub Repository](https://github.com/Deepak-tech06/valentine-website)
+![To Saturn & Back](https://img.shields.io/badge/Love%20Meter-Saturn%20%26%20Back-8A2BE2?style=for-the-badge)
 
 </div>
 
 ---
 
-# 📸 Preview
+# ✨ Fitur Utama
 
-<p align="center">
-  <img src="./image.png" width="100%" alt="Valentine Website Preview"/>
-</p>
-
----
-
-# 🌸 Overview
-
-**Valentine Interactive Website** is a creative and romantic web experience designed to make Valentine’s Day memorable through animations, interactive storytelling, music, playful interactions, and emotional visual design.
-
-The project combines modern frontend development with immersive UI effects to create a unique and engaging digital experience.
+- 💻 **Animated Coding Intro**: Layar simulasi koding romantis dengan VS Code style khusus buat Princess Belle.
+- 🧸 **Interactive Questions**: Tombol "ENGGA" yang otomatis kabur/menghindar kalau diarahkan kursor kursor!
+- 🎁 **3 Kado Spesial**:
+  - 🧠 **Kado 1: Kuis Cinta**: 5 pertanyaan seru tentang kenangan & kebiasaan Zaa & Yumna.
+  - 💌 **Kado 2: Surat Cinta**: Surat ungkapan hati yang mendalam dan hangat dari Zaa.
+  - 📸 **Kado 3: Galeri Foto**: Momen-momen indah kebersamaan (jogging, nugas, wedangan, dll).
+- 🎵 **Latar Musik**: Otomatis memutar lagu *"LANY - Stuck"* begitu halaman disentuh/diklik.
+- 🧿 **Halaman Penutup**: Foto pertama ketemu dan ucapan penutup yang hangat.
 
 ---
 
-# ✨ Features
+# 📂 Struktur File
 
-## 💻 Coding Style Animated Intro
-A cinematic coding-inspired introduction sequence.
-
-## 🧸 Interactive Love Questions
-Fun and engaging interactive question pages.
-
-## 😂 Moving “No” Button Effect
-Playful button interaction for a humorous user experience.
-
-## 🎁 Surprise Gift Reveal
-Animated gift opening section with hidden surprises.
-
-## 📝 Romantic Love Letter Popup
-Beautiful popup designed like a personal handwritten love letter.
-
-## 🧠 Love Quiz Experience
-Interactive quiz section with smooth transitions and effects.
-
-## 📷 Photo Gallery Section
-Stylish image gallery to showcase memorable moments.
-
-## 🎥 Final Romantic Video Message
-Heartfelt ending section featuring a romantic video surprise.
-
-## ❤️ Floating Heart Animations
-Continuous floating heart effects creating immersive visuals.
-
-## 🎵 Background Music Support
-Customizable romantic background music support.
-
----
-
-# 🛠️ Tech Stack
-
-| Technology | Purpose |
-|------------|----------|
-| HTML5 | Website Structure |
-| CSS3 | Styling & Animations |
-| JavaScript | Interactivity |
-| Vercel | Deployment |
-| GitHub | Version Control |
-
----
-
-# 🌐 Live Demo
-
-🔗 https://valentine-website-eight-taupe.vercel.app/
-
----
-
-# 📂 Project Structure
-
-```bash
+```text
 valentine-website/
-│
-├── index.html
-├── style.css
-├── script.js
-├── music.mp3
-├── preview.png
-└── README.md
+├── index.html                 # Halaman utama & interaktivitas
+├── LANY - Stuck.mp3           # Lagu latar romantis
+├── README.md                  # Dokumentasi proyek
+├── jogging manahan.jpg        # Foto kenangan 1
+├── nugas bareng.png           # Foto kenangan 2
+├── potobooth pakuwon.jpg      # Foto kenangan 3
+├── naik motor.jpg             # Foto kenangan 4
+├── makan masakan yumna.jpg    # Foto kenangan 5
+├── makan depan moewardi.jpg   # Foto kenangan 6
+└── pertama ketemu.jpg         # Foto halaman akhir
 ```
-
----
-
-# 🚀 Installation & Setup
-
-## Clone the Repository
-
-```bash
-git clone https://github.com/Deepak-tech06/valentine-website.git
-```
-
----
-
-## Navigate to Project Folder
-
-```bash
-cd valentine-website
-```
-
----
-
-## Run the Project
-
-Simply open:
-
-```bash
-index.html
-```
-
-in your browser.
-
----
-
-# 🎵 Customize Background Music
-
-You can personalize the website with your own favorite music.
-
-## Step 1
-
-Replace:
-
-```bash
-music.mp3
-```
-
-with your preferred song file.
-
----
-
-## Step 2
-
-If your file name is different, update the audio source inside `index.html`:
-
-```html
-<source src="your-music-file.mp3" type="audio/mpeg">
-```
-
----
-
-# 🌟 Highlights
-
-- Modern Romantic UI
-- Smooth Animations & Effects
-- Interactive Storytelling
-- Fully Responsive Design
-- Lightweight Frontend Project
-- Beginner Friendly
-- Easy Customization
-- Immersive User Experience
-
----
-
-# 📱 Responsive Design
-
-Optimized for:
-
-- 💻 Desktop
-- 📱 Mobile Devices
-- 📲 Tablets
-
----
-
-# 🌍 Deployment
-
-This project is deployed using **Vercel**.
-
-### Live Website
-
-🔗 https://valentine-website-eight-taupe.vercel.app/
-
----
-
-# ❤️ Purpose of This Project
-
-This project was created as a fun and creative way to surprise someone special on Valentine’s Day using web development, animations, storytelling, and interactive frontend design.
-
-The goal was to create an emotional and memorable digital experience rather than a traditional static website.
-
----
-
-# 👨‍💻 Developer
-
-## Deepak
-
-### Connect With Me
-
-- GitHub: https://github.com/Deepak-tech06
-- LinkedIn: https://www.linkedin.com/in/deepak-b-v/
-
----
-
-# ⭐ Support
-
-If you liked this project:
-
-- ⭐ Star the repository
-- 🍴 Fork the project
-- 📢 Share it with others
-- 💖 Support future projects
-
----
-
-# 📜 License
-
-This project is licensed under the **MIT License**.
 
 ---
 
 <div align="center">
-
-# 💖 Made With Love
-
-### “Some feelings are better expressed through experiences than words.”
-
-❤️ Happy Valentine’s Day ❤️
-
+  <i>"Love you continuously to Saturn and all the way back, Yumna! ❤️✨"</i><br>
+  <b>— Zaa</b>
 </div>
